@@ -20,6 +20,7 @@ export interface NestDataLoader<ID, Type> {
   /**
    * Should return a new instance of dataloader each time
    */
+  generateDataLoader(ctx: any): DataLoader<ID, Type>;
   generateDataLoader(): DataLoader<ID, Type>;
 }
 
@@ -56,7 +57,7 @@ export class DataLoaderInterceptor implements NestInterceptor {
                     ctx[NEST_LOADER_CONTEXT_KEY].contextId,
                     { strict: false }
                   )
-                ).generateDataLoader();
+                ).generateDataLoader(ctx);
               })();
             } catch (e) {
               throw new InternalServerErrorException(
